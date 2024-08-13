@@ -13,9 +13,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String popValue = 'Share the app';
-  int carObjectIndex = 0;
+  int _carObjectIndex = 0;
 
-  List<CarObject> cars = [
+  final List<CarObject> _cars = [
     CarObject(0, 'carOne', 'car details one', 'assets/images/Nissan-Versa.png',
         carFeature: carFeatureList[0]),
     CarObject(1, 'carTwo', 'car details 2', 'assets/images/Kia-Soul.png',
@@ -32,78 +32,84 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Foo App'),
-          backgroundColor: Colors.red,
-          actions: [
-            buildPopupMenuButton(),
-          ],
-        ),
-        body: Center(
-          child: Column(
-            children: [
-              Image.asset(imgSrc),
-              Flexible(
-                  child: Column(
-                children: [
-                  Text(
-                    cars[carObjectIndex].carFeature?['Name'],
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                        color: Colors.red),
-                  ),
-                  Row(
-                    children: [
-                      buildFeaturesRow(),
-                      buildFeaturesRow(),
-                    ],
-                  ),
-                ],
-              )),
-              Flexible(
-                child: ListWheelScrollView.useDelegate(
-                  onSelectedItemChanged: (value) {
-                    carObjectIndex = value;
-                    setState(() {
-                      imgSrc = cars[value].carImage;
-                    });
-                  },
-                  physics: const FixedExtentScrollPhysics(),
-                  itemExtent: 100,
-                  childDelegate: ListWheelChildBuilderDelegate(
-                    childCount: cars.length,
-                    builder: (context, index) {
-                      return Card(
-                        elevation: 2,
-                        child: ListTile(
-                          leadingAndTrailingTextStyle: TextStyle(
-                              fontWeight: FontWeight.bold, height: 50),
-                          title: Text(cars[index].carName),
-                          trailing: Image.asset(
-                            cars[index].carImage,
-                            fit: BoxFit.cover,
-                            isAntiAlias: true,
-                          ),
-                        ),
-                      );
+      appBar: AppBar(
+        title: Text('Foo App'),
+        backgroundColor: Colors.red,
+        actions: [
+          buildPopupMenuButton(),
+        ],
+      ),
+      body: Center(
+        child: Column(children: [
+          Image.asset(imgSrc),
+          Flexible(
+            child: Column(
+              children: [
+                Text(
+                  _cars[_carObjectIndex].carFeature?['Name'],
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      color: Colors.red),
+                ),
+                Row(
+                  children: [
+                    Car.Nissan
+                    buildFeaturesRow(featureName: 'Engin', iconData: Icons.settings),
+                    buildFeaturesRow(featureName: 'Horsepower', iconData: Icons.power),
+                  ],
+                ),
+                Row(
+                  children: [
+                    buildFeaturesRow(featureName: 'Engin', iconData: Icons.settings),
+                    buildFeaturesRow(featureName: 'Horsepower', iconData: Icons.power),
+                  ],
+                ),
+                Flexible(
+                  child: ListWheelScrollView.useDelegate(
+                    onSelectedItemChanged: (value) {
+                      _carObjectIndex = value;
+                      setState(() {
+                        imgSrc = _cars[value].carImage;
+                      });
                     },
+                    physics: const FixedExtentScrollPhysics(),
+                    itemExtent: 100,
+                    childDelegate: ListWheelChildBuilderDelegate(
+                      childCount: _cars.length,
+                      builder: (context, index) {
+                        return Card(
+                          elevation: 2,
+                          child: ListTile(
+                            leadingAndTrailingTextStyle: TextStyle(
+                                fontWeight: FontWeight.bold, height: 50),
+                            title: Text(_cars[index].carName),
+                            trailing: Image.asset(
+                              _cars[index].carImage,
+                              fit: BoxFit.cover,
+                              isAntiAlias: true,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ));
+        ]),
+      ),
+    );
   }
 
   Expanded buildFeaturesRow(
       {required String featureName,
-      required String featureValue,
       required IconData iconData}) {
     return Expanded(
       child: ListTile(
-        title: Text(featureName),
-        subtitle: Text(featureValue),
+        title: Text(_cars[_carObjectIndex].carFeature!.keys.firstWhere((element) => featureName == element,)),
+        subtitle: Text(_cars[_carObjectIndex].carFeature![featureName]),
         leading: Icon(iconData),
       ),
     );
