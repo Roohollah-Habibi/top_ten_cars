@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> {
       // mytime();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashScreen()
+      home: HomeScreen()
     );
   }
 }
