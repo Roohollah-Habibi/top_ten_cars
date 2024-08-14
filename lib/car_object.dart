@@ -1,34 +1,28 @@
-class CarObject {
-  String _carName;
-  int _carId;
-  String _carDetails;
-  String _carImage;
-  Map<String,dynamic>? carFeature;
+import 'package:flutter/material.dart';
 
-  CarObject(this._carId,this._carName,this._carDetails,this._carImage,{this.carFeature});
+final class CarObject {
+  final String carName;
+  final int carId;
+  final String price;
+  final String engin;
+  final String horsepower;
+  final String seating;
+  final String warranty;
+  final String imgSrc;
+  static const  enginIcon = Icons.settings;
+  static const  horsepowerIcon = Icons.power;
+  static const  seatingIcon = Icons.security;
+  static const  warrantyIcon = Icons.add_a_photo_rounded;
 
 
-  String get carName => _carName;
-
-  set carName(String value) {
-    _carName = value;
-  }
-
-  int get carId => _carId;
-
-  String get carImage => _carImage;
-
-  set carImage(String value) {
-    _carImage = value;
-  }
-
-  String get carDetails => _carDetails;
-
-  set carDetails(String value) {
-    _carDetails = value;
-  }
-
-  set carId(int value) {
-    _carId = value;
-  }
+  CarObject({
+    required this.carId,
+    required this.carName,
+    required this.price,
+    required this.engin,
+    required this.horsepower,
+    required this.seating,
+    required this.warranty,
+    required this.imgSrc,
+  });
 }

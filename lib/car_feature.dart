@@ -1,45 +1,44 @@
-List<Map<String, dynamic>> carFeatureList = [
-  {
-    'id': 0,
-    'Name': 'Nissan',
-    'Price': '2350\$',
-    'Engin': 'Gas',
-    'Horsepower': '152-182 hp',
-    'Seating': 5,
-    'Warranty': '3 years/36km miles'
-  },
-  {
-    'id': 1,
-    'Name': 'Mazda',
-    'Price': '2350\$',
-    'Engin': 'Gas',
-    'Horsepower': '152-182 hp',
-    'Seating': 5,
-    'Warranty': '3 years/36km miles'
-  },
-  {
-    'id': 2,
-    'Name': 'Corrolla',
-    'Price': '2350\$',
-    'Engin': 'Gas',
-    'Horsepower': '152-182 hp',
-    'Seating': 5,
-    'Warranty': '3 years/36km miles'
-  },
-  {
-    'id': 3,
-    'Price': '2350\$',
-    'Name': 'Nissan',
-    'Engin': 'Gas',
-    'Horsepower': '152-182 hp',
-    'Seating': 5,
-    'Warranty': '3 years/36km miles'
-  },
-  {
-    'Name': 'Nissan',
-    'Engin': 'Gas',
-    'Horsepower': '152-182 hp',
-    'Seating': 5,
-    'Warranty': '3 years/36km miles'
-  },
+import 'package:top_ten/car_object.dart';
+
+final List<CarObject> carFeatureList = [
+  CarObject(
+    carId: 0,
+    carName: 'Nissan',
+    price: '2456\$',
+    engin: 'Gas',
+    horsepower: '123 - 145 hp',
+    seating: '5',
+    warranty: '2 years/ 345km',
+    imgSrc: 'assets/images/car.png',
+  ),
+  CarObject(
+    carId: 1,
+    carName: 'Mazda',
+    price: '2456\$',
+    engin: 'Gas',
+    horsepower: '123 - 145 hp',
+    seating: '5',
+    warranty: '2 years/ 345km',
+    imgSrc: 'assets/images/Kia-Soul.png',
+  ),
+  CarObject(
+    carId: 2,
+    carName: 'Ferrari',
+    price: '2456\$',
+    engin: 'Gas',
+    horsepower: '123 - 145 hp',
+    seating: '5',
+    warranty: '2 years/ 345km',
+    imgSrc: 'assets/images/Mitsubishi-Mirage.png',
+  ),
+  CarObject(
+    carId: 3,
+    carName: 'Lamborgini',
+    price: '2456\$',
+    engin: 'Gas',
+    horsepower: '123 - 145 hp',
+    seating: '5',
+    warranty: '2 years/ 345km',
+    imgSrc: 'assets/images/Nissan-Versa.png',
+  ),
 ];

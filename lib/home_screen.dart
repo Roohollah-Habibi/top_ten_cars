@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'car_feature.dart';
 import 'car_object.dart';
-
-var imgSrc = 'assets/images/car.png';
+import 'custom_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,29 +10,18 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  String popValue = 'Share the app';
-  int _carObjectIndex = 0;
+int _carIndex = 0;
+const textStyle =
+    TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.red);
 
-  final List<CarObject> _cars = [
-    CarObject(0, 'carOne', 'car details one', 'assets/images/Nissan-Versa.png',
-        carFeature: carFeatureList[0]),
-    CarObject(1, 'carTwo', 'car details 2', 'assets/images/Kia-Soul.png',
-        carFeature: carFeatureList[1]),
-    CarObject(
-        2, 'carThree', 'car details 3', 'assets/images/Mitsubishi-Mirage.png',
-        carFeature: carFeatureList[2]),
-    // CarObject(3, 'carfour', 'car details 4', 'car.png'),
-    // CarObject(4, 'carfive', 'car details 5', '_carImage 5'),
-    // CarObject(5, 'carsix', 'car details 6', '_carImage 6'),
-    // CarObject(6, 'carseven', 'car details 7', '_carImage 7'),
-  ];
+class _HomeScreenState extends State<HomeScreen> {
+  String homeScreenImgSrc = carFeatureList[_carIndex].imgSrc;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Foo App'),
+        title: const Text('Foo App'),
         backgroundColor: Colors.red,
         actions: [
           buildPopupMenuButton(),
@@ -41,51 +29,59 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Center(
         child: Column(children: [
-          Image.asset(imgSrc),
+          SizedBox(
+            height: 200,
+            width: double.infinity,
+            child: Image.asset(homeScreenImgSrc),
+          ),
           Flexible(
             child: Column(
               children: [
                 Text(
-                  _cars[_carObjectIndex].carFeature?['Name'],
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                      color: Colors.red),
+                  carFeatureList[_carIndex].carName,
+                  style: textStyle,
                 ),
-                Row(
-                  children: [
-                    Car.Nissan
-                    buildFeaturesRow(featureName: 'Engin', iconData: Icons.settings),
-                    buildFeaturesRow(featureName: 'Horsepower', iconData: Icons.power),
-                  ],
+                Text(
+                  carFeatureList[_carIndex].price,
+                  style: textStyle,
                 ),
-                Row(
-                  children: [
-                    buildFeaturesRow(featureName: 'Engin', iconData: Icons.settings),
-                    buildFeaturesRow(featureName: 'Horsepower', iconData: Icons.power),
-                  ],
+                Flexible(
+                  child: GridView(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 2,
+                      mainAxisExtent: 100,
+                    ),
+                    children: [
+                      CustomCard(txt: 'engin',index:_carIndex),
+                      CustomCard(txt: 'warranty',index: _carIndex),
+                      CustomCard(txt: 'seating',index: _carIndex),
+                      CustomCard(txt: 'horsepower',index: _carIndex),
+                    ],
+                  ),
                 ),
                 Flexible(
                   child: ListWheelScrollView.useDelegate(
                     onSelectedItemChanged: (value) {
-                      _carObjectIndex = value;
+                      _carIndex = value;
                       setState(() {
-                        imgSrc = _cars[value].carImage;
+                        homeScreenImgSrc = carFeatureList[value].imgSrc;
                       });
                     },
                     physics: const FixedExtentScrollPhysics(),
-                    itemExtent: 100,
+                    itemExtent: 130,
                     childDelegate: ListWheelChildBuilderDelegate(
-                      childCount: _cars.length,
+                      childCount: carFeatureList.length,
                       builder: (context, index) {
                         return Card(
                           elevation: 2,
                           child: ListTile(
                             leadingAndTrailingTextStyle: TextStyle(
                                 fontWeight: FontWeight.bold, height: 50),
-                            title: Text(_cars[index].carName),
+                            title: Text(carFeatureList[index].carName),
                             trailing: Image.asset(
-                              _cars[index].carImage,
+                              carFeatureList[index].imgSrc,
                               fit: BoxFit.cover,
                               isAntiAlias: true,
                             ),
@@ -103,18 +99,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Expanded buildFeaturesRow(
-      {required String featureName,
-      required IconData iconData}) {
-    return Expanded(
-      child: ListTile(
-        title: Text(_cars[_carObjectIndex].carFeature!.keys.firstWhere((element) => featureName == element,)),
-        subtitle: Text(_cars[_carObjectIndex].carFeature![featureName]),
-        leading: Icon(iconData),
-      ),
-    );
-  }
-
   PopupMenuButton<String> buildPopupMenuButton() {
     return PopupMenuButton<String>(
       // shadowColor: Colors.red,
@@ -122,12 +106,8 @@ class _HomeScreenState extends State<HomeScreen> {
       color: Colors.transparent,
       // elevation: 20,
       enableFeedback: true,
-      initialValue: popValue,
       iconSize: 35,
       iconColor: Colors.yellow,
-      // shape: BeveledRectangleBorder(
-      //   borderRadius: BorderRadius.circular(20),
-      // ),
       itemBuilder: (context) => [
         PopupMenuItem(
           onTap: () {},
@@ -164,56 +144,5 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
     );
   }
-
-  DropdownButton<String> get buildMoreDropdownButton {
-    return DropdownButton<String>(
-      icon: const Icon(Icons.more_vert_outlined),
-      iconSize: 35,
-      iconEnabledColor: Colors.yellow,
-      dropdownColor: Colors.orange,
-      items: [
-        DropdownMenuItem(
-          child: Text('Share the app'),
-          value: 'Share the app',
-          alignment: Alignment.center,
-        ),
-        DropdownMenuItem(
-          alignment: Alignment.center,
-          child: Text('About'),
-          value: 'About',
-          onTap: () {},
-        ),
-        DropdownMenuItem(
-          alignment: Alignment.center,
-          child: Text('Exit'),
-          value: 'Exit',
-        ),
-      ],
-      onChanged: (String? value) {
-        popValue = value!;
-        if (popValue == 'About') {
-          print('About===============');
-        } else if (popValue == 'Exit') {
-          print('Exit ================');
-        } else {
-          print('Share the App =============');
-        }
-        customOnTap();
-      },
-    );
-  }
-
-  Card buildCard() {
-    return Card(
-      color: Colors.red,
-      child: ListTile(
-        title: Text('text'),
-      ),
-    );
-  }
-
-  void customOnTap() {
-    print('Hello');
-    showAboutDialog(context: context, applicationIcon: Icon(Icons.ad_units));
-  }
 }
+
