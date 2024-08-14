@@ -46,19 +46,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: textStyle,
                 ),
                 Flexible(
-                  child: GridView(
+                  child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisSpacing: 20,
                       crossAxisSpacing: 2,
                       mainAxisExtent: 100,
                     ),
-                    children: [
-                      CustomCard(txt: 'engin',index:_carIndex),
-                      CustomCard(txt: 'warranty',index: _carIndex),
-                      CustomCard(txt: 'seating',index: _carIndex),
-                      CustomCard(txt: 'horsepower',index: _carIndex),
-                    ],
+                    itemCount: carFeatureList.length,
+                    itemBuilder: (context, index) => CustomCard(
+                        txt: carFeatureList[index].feature[index],
+                        index: index),
                   ),
                 ),
                 Flexible(
@@ -145,4 +143,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
