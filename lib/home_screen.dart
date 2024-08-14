@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:top_ten/car_model/car_object.dart';
-import 'package:top_ten/object_lists/customLsit.dart';
+import 'package:top_ten/object_lists/card_list.dart';
 import 'package:top_ten/styles_&_decorations/styles_and_decorations.dart';
 
 import 'custom_widgets/custom_grid_car_features.dart';
@@ -43,51 +43,46 @@ class _HomeScreenState extends State<HomeScreen> {
               width: double.infinity,
               child: Image.asset(homeScreenImgSrc,fit: BoxFit.contain,),
             ),
-            Flexible(
-              child: Column(
-                children: [
-                  Text(
-                    foundCar.carName,
-                    style: textStyle,
-                  ),
-                  Text(
-                    foundCar.price,
-                    style: textStyle,
-                  ),
-                  CustomGridCarFeatures(index: _carIndex,),
-                  Flexible(
-                    child: ListWheelScrollView.useDelegate(
-                      onSelectedItemChanged: (value) {
-                        _carIndex = value;
-                        setState(() {
-                          homeScreenImgSrc = carModelsLists[value].imgSrc;
-                        });
-                      },
-                      physics: const FixedExtentScrollPhysics(),
-                      itemExtent: 100,
-                      childDelegate: ListWheelChildBuilderDelegate(
-                        childCount: carModelsLists.length,
-                        builder: (context, index) {
-                          return Card(
-                            elevation: 2,
-                            child: ListTile(
-                              leadingAndTrailingTextStyle: TextStyle(
-                                  fontWeight: FontWeight.bold, height: 50),
-                              title: Text(carModelsLists[index].carName),
-                              trailing: Image.asset(
+                Text(
+                  foundCar.carName,
+                  style: textStyle,
+                ),
+                Text(
+                  foundCar.price,
+                  style: textStyle,
+                ),
+            CustomGridCarFeatures(index: _carIndex,),
+                Flexible(
+                  child: ListWheelScrollView.useDelegate(
+                    onSelectedItemChanged: (value) {
+                      _carIndex = value;
+                      setState(() {
+                        homeScreenImgSrc = carModelsLists[value].imgSrc;
+                      });
+                    },
+                    physics: const FixedExtentScrollPhysics(),
+                    itemExtent: 100,
+                    childDelegate: ListWheelChildBuilderDelegate(
+                      childCount: carModelsLists.length,
+                      builder: (context, index) {
+                        return Card(
+                          elevation: 2,
+                          child: ListTile(
+                            title: Text(foundCar.carName),
+                            trailing: InkWell(
+
+                              child: Image.asset(
                                 carModelsLists[index].imgSrc,
                                 fit: BoxFit.cover,
                                 isAntiAlias: true,
                               ),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     ),
                   ),
-                ],
-              ),
-            ),
+                )
           ]),
         ),
       ),
