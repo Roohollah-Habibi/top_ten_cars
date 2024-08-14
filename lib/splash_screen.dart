@@ -1,8 +1,9 @@
 
 import 'package:flutter/material.dart';
 
-const carLogo = 'assets/images/car.png';
+import 'styles_&_decorations/styles_and_decorations.dart';
 
+const carLogo = 'assets/images/car.png';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -16,13 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Center(
         child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.indigo, Colors.purple, Colors.orange],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomLeft,
-            ),
-          ),
+          decoration: backgroundColor,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

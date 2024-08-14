@@ -1,6 +1,6 @@
-import 'package:top_ten/car_object.dart';
+import 'package:top_ten/car_model/car_object.dart';
 
-final List<CarObject> carFeatureList = [
+final List<CarObject> carModelsLists = [
   CarObject(
     carId: 0,
     carName: 'Nissan',

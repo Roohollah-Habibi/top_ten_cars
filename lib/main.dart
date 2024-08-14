@@ -25,6 +25,7 @@ class _MyAppState extends State<MyApp> {
       // mytime();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData.from(colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange)),
       home: HomeScreen()
     );
   }

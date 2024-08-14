@@ -9,13 +9,6 @@ final class CarObject {
   final String seating;
   final String warranty;
   final String imgSrc;
-  final List<String> feature = ['engin','horsepower','seating','warranty'];
-
-  static const  enginIcon = Icons.settings;
-  static const  horsepowerIcon = Icons.power;
-  static const  seatingIcon = Icons.security;
-  static const  warrantyIcon = Icons.add_a_photo_rounded;
-
 
   CarObject({
     required this.carId,
