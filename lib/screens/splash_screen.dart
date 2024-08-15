@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
 
-import 'styles_&_decorations/styles_and_decorations.dart';
+import '../styles_&_decorations/styles_and_decorations.dart';
 
-const carLogo = 'assets/images/car.png';
+const carLogo = 'assets/images/carlogo.png';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 

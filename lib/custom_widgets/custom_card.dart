@@ -1,26 +1,43 @@
 import 'package:flutter/material.dart';
-
-const titleStyle = TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: Colors.blue);
+import 'package:top_ten/styles_&_decorations/styles_and_decorations.dart';
 
 class CustomCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final IconData iconData;
+
   const CustomCard({
     super.key,
-
     required this.title,
     required this.subtitle,
     required this.iconData,
   });
+
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.orange,
+      color: Colors.transparent,
+      surfaceTintColor: Colors.orange.shade300,
+      shape: BeveledRectangleBorder(borderRadius: BorderRadiusDirectional.circular(20)),
       child: ListTile(
-        title: Text(title,style: titleStyle,),
-        subtitle: Text(subtitle,style: const TextStyle(fontSize: 16,color: Colors.purple,),),
-        leading: Icon(iconData),
+        minLeadingWidth: 0,
+        isThreeLine: true,
+        minVerticalPadding: 20,
+        iconColor: Colors.white,
+        titleAlignment: ListTileTitleAlignment.center,
+        subtitleTextStyle: cardListTitleStyle,
+        titleTextStyle: cardListTitleStyle,
+        title: Text(
+          title,
+          textAlign: TextAlign.center,
+        ),
+        subtitle: Text(
+          subtitle,
+          textAlign: TextAlign.center,
+          style: cardListSubtitleStyle,
+        ),
+        //todo: make an appropriate icon here
+        leading: Icon(iconData,size: 30,),
       ),
     );
   }

@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 final class CarObject {
   final String carName;
   final int carId;

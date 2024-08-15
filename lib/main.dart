@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:top_ten/home_screen.dart';
-import 'package:top_ten/splash_screen.dart';
+import 'package:top_ten/screens/home_screen.dart';
+import 'package:top_ten/screens/splash_screen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -16,17 +16,18 @@ class _MyAppState extends State<MyApp> {
   Widget choseScreen = const SplashScreen();
 
     void mytime() async{
-      await Future.delayed(const Duration(seconds: 20),() => setState(() {
+      await Future.delayed(const Duration(seconds: 6),() => setState(() {
         choseScreen = const HomeScreen();
       }));
   }
   @override
   Widget build(BuildContext context) {
-      // mytime();
+      mytime();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.from(colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange)),
-      home: HomeScreen()
+      home: choseScreen,
     );
   }
 }
+//todo: share the app
