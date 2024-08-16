@@ -20,6 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
           decoration: backgroundColor,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
                   flex: 2,

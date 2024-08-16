@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:top_ten/styles_&_decorations/styles_and_decorations.dart';
 
-class CustomCard extends StatelessWidget {
+class FeaturesCustomCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final IconData iconData;
 
-  const CustomCard({
+  const FeaturesCustomCard({
     super.key,
     required this.title,
     required this.subtitle,

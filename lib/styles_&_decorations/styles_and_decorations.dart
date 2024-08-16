@@ -20,12 +20,12 @@ TextStyle imageTextStyle = TextStyle(
 TextStyle scrollWheelSubtitleTextStyle = const TextStyle(
     fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue);
 
-TextStyle scrollWheelTitleTextStyle =  TextStyle(
-    fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red.shade900);
+TextStyle scrollWheelTitleTextStyle =  TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.red.shade900);
 
 TextStyle appBarTextStyle =  TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.orange.shade300);
 
-TextStyle popUpMenuStyle =  TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.indigo.shade900);
+TextStyle appBarActionPopUpMenuStyle =  TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.indigo.shade900);
+
 
 const showNameTextStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 25,color: Colors.black);
 

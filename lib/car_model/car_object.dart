@@ -7,8 +7,10 @@ final class CarObject {
   final String seating;
   final String warranty;
   final String imgSrc;
+  bool favorite;
 
   CarObject({
+    this.favorite = false,
     required this.carId,
     required this.carName,
     required this.price,

@@ -5,7 +5,6 @@ import 'package:top_ten/screens/details_screen.dart';
 import 'package:top_ten/styles_&_decorations/styles_and_decorations.dart';
 import '../custom_widgets/custom_grid_car_features.dart';
 import '../object_lists/car_model_lists.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -109,13 +108,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         childDelegate: ListWheelChildBuilderDelegate(
           childCount: carModelsLists.length,
           builder: (context, index) {
-            return Card(
-              shadowColor: Colors.indigo,
-              elevation: 10,
-              color: Colors.black,
-              shape: ContinuousRectangleBorder(
-                  borderRadius: BorderRadiusDirectional.circular(40)),
-              child: buildWheelScrollViewListTile(index),
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Card(
+                shadowColor: Colors.indigo,
+                elevation: 10,
+                shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadiusDirectional.circular(20)),
+                child: buildWheelScrollViewListTile(index),
+              ),
             );
           },
         ),
@@ -128,6 +129,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       onTap: () {
         setState(() {
           favorite = !favorite;
+          carModelsLists[_carIndex].favorite = favorite;
           if (favorite) {
             scaleFavorite = 1.2;
           } else {
@@ -137,39 +139,41 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       },
       child: Icon(
         size: 35,
-        favorite ? Icons.favorite : Icons.favorite_border,
-        color: favorite ? Colors.red.shade500 : Colors.white,
+        carModelsLists[_carIndex].favorite ? Icons.favorite : Icons.favorite_border,
+        color: carModelsLists[_carIndex].favorite ? Colors.red.shade500 : Colors.white,
       ),
     );
   }
 
-  ListTile buildWheelScrollViewListTile(int index) {
+  Widget buildWheelScrollViewListTile(int index) {
     CarObject foundCar = carModelsLists[index];
-    return ListTile(
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const DetailsScreen(),
-      )),
-      shape: BeveledRectangleBorder(
-          borderRadius: BorderRadiusDirectional.circular(70)),
-      tileColor: Colors.orange.shade200,
-      isThreeLine: true,
-      titleAlignment: ListTileTitleAlignment.center,
-      titleTextStyle: scrollWheelTitleTextStyle,
-      subtitleTextStyle: scrollWheelSubtitleTextStyle,
-      title: Text(
-        foundCar.carName,
-      ),
-      subtitle: Text(foundCar.price),
-      trailing: InkWell(
-        child: Image.asset(
-          carModelsLists[index].imgSrc,
-          fit: BoxFit.cover,
-          isAntiAlias: true,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListTile(
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const DetailsScreen(),
+        )),
+        shape: BeveledRectangleBorder(
+            borderRadius: BorderRadiusDirectional.circular(20)),
+        tileColor: Colors.orange.shade200,
+        isThreeLine: true,
+        titleAlignment: ListTileTitleAlignment.center,
+        titleTextStyle: scrollWheelTitleTextStyle,
+        subtitleTextStyle: scrollWheelSubtitleTextStyle,
+        title: Text(
+          foundCar.carName,
+        ),
+        subtitle: Text(foundCar.price),
+        trailing: InkWell(
+          child: Image.asset(
+            carModelsLists[index].imgSrc,
+            fit: BoxFit.cover,
+            isAntiAlias: true,
+          ),
         ),
       ),
     );
   }
-
   PopupMenuButton<String> buildPopupMenuButton() {
     return PopupMenuButton<String>(
       enableFeedback: true,
@@ -177,34 +181,46 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       iconColor: Colors.orange.shade300,
       itemBuilder: (context) => [
         PopupMenuItem(
-          onTap: () {},
-          child: Text(
-            'Share the app',
-            style: popUpMenuStyle,
-          ),
-        ),
-        PopupMenuItem(
-          onTap: () => showAboutApp(context),
-          child: Text('About app', style: popUpMenuStyle),
-        ),
-        PopupMenuItem(
           onTap: () {
-            buildShowExitDialog(context);
           },
           child: ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 20),
             trailing: const Icon(
-              Icons.exit_to_app,
-              color: Colors.red,
+              Icons.share,
+              color: Colors.indigo,
               size: 25,
             ),
-            title: Text(
-              'Exit',
-              style: popUpMenuStyle,
+            title: const Text('Share the app'),
+            tileColor: Colors.orange.shade300,
+            titleTextStyle: appBarActionPopUpMenuStyle,
+          ),
+        ),
+        PopupMenuItem(
+          onTap: () => showAboutApp(context),
+          child: ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+            trailing: const Icon(
+              Icons.info_outline,
+              color: Colors.indigo,
+              size: 25,
             ),
-            tileColor: Colors.orange,
-            titleTextStyle: const TextStyle(
-                fontSize: 20, color: Colors.blue, fontWeight: FontWeight.bold),
+            title: const Text('About app'),
+            tileColor: Colors.orange.shade300,
+            titleTextStyle: appBarActionPopUpMenuStyle,
+          ),
+        ),
+        PopupMenuItem(
+          onTap: ()=> buildShowExitDialog(context),
+          child: ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+            trailing: const Icon(
+              Icons.exit_to_app,
+              color: Colors.indigo,
+              size: 25,
+            ),
+            title: const Text('Exit'),
+            tileColor: Colors.orange.shade300,
+            titleTextStyle: appBarActionPopUpMenuStyle,
           ),
         ),
       ],
@@ -213,25 +229,46 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Future<dynamic> buildShowExitDialog(BuildContext context) {
     return showDialog(
-              context: context,
-              builder: (context) => Center(
-                child: Container(
-                  color: Colors.blue,
-                  child: Column(
+        context: context,
+        builder: (context) => Center(
+              child: Container(
+                color: Colors.blue,
+                child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.exit_to_app,size: 40,color: Colors.red,),
-                          const Text('Are you sure?',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 24,color: Colors.white),),
-                          Row(mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                            ElevatedButton(onPressed: (){Navigator.of(context).pop();}, child: Text('NO'),),
+                    children: [
+                      const Icon(
+                        Icons.exit_to_app,
+                        size: 40,
+                        color: Colors.red,
+                      ),
+                      const Text(
+                        'Are you sure?',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                            color: Colors.white),
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('NO'),
+                            ),
                             const SizedBox(width: 50),
-                                ElevatedButton(onPressed: (){Navigator.pop(context);Navigator.pop(context);}, child: Text('Yes'),)
-                          ]
-
-                      )]),
-                ),
-              ));
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Yes'),
+                            )
+                          ])
+                    ]),
+              ),
+            ));
   }
 }
 

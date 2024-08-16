@@ -1,26 +1,25 @@
-import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:top_ten/custom_widgets/custom_card.dart';
+import 'package:top_ten/custom_widgets/features_custom_card.dart';
 import 'car_model_lists.dart';
 
-List<CustomCard> cardList (int carIndex){
+List<FeaturesCustomCard> cardList (int carIndex){
   return [
-    CustomCard(
+    FeaturesCustomCard(
       iconData: FontAwesomeIcons.gears,
       title: 'Engin',
       subtitle: carModelsLists[carIndex].engin,
     ),
-    CustomCard(
+    FeaturesCustomCard(
       iconData: FontAwesomeIcons.award,
       title: 'Warranty',
       subtitle: carModelsLists[carIndex].warranty,
     ),
-    CustomCard(
+    FeaturesCustomCard(
       iconData: FontAwesomeIcons.chair,
       title: 'Seating',
       subtitle: carModelsLists[carIndex].seating,
     ),
-    CustomCard(
+    FeaturesCustomCard(
       iconData: FontAwesomeIcons.carBattery,
       title: 'Horsepower',
       subtitle: carModelsLists[carIndex].horsepower,
