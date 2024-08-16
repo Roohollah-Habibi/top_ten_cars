@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:top_ten/car_model/car_object.dart';
+import 'package:top_ten/object_lists/car_model_lists.dart';
+import 'package:top_ten/object_lists/card_list.dart';
 
 import 'package:top_ten/screens/details_screen.dart';
 import 'package:top_ten/styles_&_decorations/styles_and_decorations.dart';
 import '../custom_widgets/custom_grid_car_features.dart';
-import '../object_lists/car_model_lists.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,8 +18,8 @@ class HomeScreen extends StatefulWidget {
 int _carIndex = 0;
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  bool favorite = false;
   double scaleFavorite = 1;
+  bool favorite = carModelsLists[_carIndex].favorite;
   late final AnimationController _animationController = AnimationController(
       vsync: this, duration: const Duration(milliseconds: 500));
 
@@ -31,6 +33,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     String homeScreenImgSrc = carModelsLists[_carIndex].imgSrc;
     CarObject foundCar = carModelsLists[_carIndex];
+    favorite = foundCar.favorite;
+    print('======> ${foundCar.carName}-->$favorite<======');
     return Scaffold(
       backgroundColor: Colors.cyan,
       appBar: AppBar(
@@ -79,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               child: AnimatedScale(
                 scale: scaleFavorite,
                 duration: const Duration(milliseconds: 500),
-                child: buildLikeButton,
+                child: buildLikeButton(foundCar),
               ),
             ),
           ),
@@ -124,13 +128,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  InkWell get buildLikeButton {
+  InkWell buildLikeButton(CarObject foundCar) {
+
     return InkWell(
       onTap: () {
+        foundCar.favorite = !foundCar.favorite;
         setState(() {
-          favorite = !favorite;
-          carModelsLists[_carIndex].favorite = favorite;
-          if (favorite) {
+          if (foundCar.favorite) {
             scaleFavorite = 1.2;
           } else {
             scaleFavorite = 1;
@@ -139,8 +143,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       },
       child: Icon(
         size: 35,
-        carModelsLists[_carIndex].favorite ? Icons.favorite : Icons.favorite_border,
-        color: carModelsLists[_carIndex].favorite ? Colors.red.shade500 : Colors.white,
+        foundCar.favorite ? Icons.favorite : Icons.favorite_border,
+        color: foundCar.favorite ? Colors.red.shade500 : Colors.white,
       ),
     );
   }
