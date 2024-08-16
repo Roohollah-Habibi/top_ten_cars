@@ -19,7 +19,6 @@ int _carIndex = 0;
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   double scaleFavorite = 1;
-  bool favorite = carModelsLists[_carIndex].favorite;
   late final AnimationController _animationController = AnimationController(
       vsync: this, duration: const Duration(milliseconds: 500));
 
@@ -33,8 +32,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     String homeScreenImgSrc = carModelsLists[_carIndex].imgSrc;
     CarObject foundCar = carModelsLists[_carIndex];
-    favorite = foundCar.favorite;
-    print('======> ${foundCar.carName}-->$favorite<======');
+    bool favorite = foundCar.favorite;
     return Scaffold(
       backgroundColor: Colors.cyan,
       appBar: AppBar(
@@ -133,6 +131,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return InkWell(
       onTap: () {
         foundCar.favorite = !foundCar.favorite;
+
         setState(() {
           if (foundCar.favorite) {
             scaleFavorite = 1.2;
