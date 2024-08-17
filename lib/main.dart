@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:top_ten/object_lists/car_model_lists.dart';
-import 'package:top_ten/object_lists/card_list.dart';
-import 'package:top_ten/screens/details_screen.dart';
 import 'package:top_ten/screens/home_screen.dart';
 import 'package:top_ten/screens/splash_screen.dart';
 

@@ -59,7 +59,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 pageSnapping: false,
                 viewportFraction: 1,
                 enlargeCenterPage: true,
-                autoPlay: false,
+                autoPlay: true,
                 height: 300,
               ),
             ),
@@ -100,7 +100,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       width: 2,
                       color: Colors.indigo.shade900,
                     ),
-                    columns: [
+                    columns: const[
                       DataColumn(label: Text('Name',)),
                       DataColumn(label: Text('Engin',)),
                       DataColumn(label: Text('Warranty')),
