@@ -30,7 +30,12 @@ TextStyle appBarActionPopUpMenuStyle =  TextStyle(fontSize: 20, fontWeight: Font
 const showNameTextStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 25,color: Colors.black);
 
 const detailsTextStyle = TextStyle(fontWeight: FontWeight.w600, fontSize: 20,color: Colors.black,);
+
 const readMoreTextStyle = TextStyle(fontWeight: FontWeight.w600, fontSize: 23,color: Colors.white,);
+
+const headingTableTxtStyle = TextStyle(fontWeight: FontWeight.w600, fontSize: 20,color: Color.fromARGB(255, 19, 12, 50),);
+const dataTableTxtStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 17,color: Color.fromARGB(
+    255, 251, 251, 251),);
 
 
 const showPriceTextStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 25,color: Colors.white54);

@@ -12,9 +12,12 @@ class DetailsScreen extends StatefulWidget {
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
 }
+
 final Uri _url = Uri.parse('https://cars.usnews.com/cars-trucks/rankings');
+
 class _DetailsScreenState extends State<DetailsScreen> {
   List<Image> carListCarousel = [];
+
   Future<void> _readMore() async {
     if (!await launchUrl(_url)) {
       throw Exception('Could not launch $_url');
@@ -61,19 +64,59 @@ class _DetailsScreenState extends State<DetailsScreen> {
               ),
             ),
             Expanded(
+              flex: 2,
               child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    myWid.carDetails,
-                    softWrap: true,
-                    textAlign: TextAlign.center,
-                    style: detailsTextStyle,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      myWid.carDetails,
+                      softWrap: true,
+                      textAlign: TextAlign.center,
+                      style: detailsTextStyle,
+                    ),
                   ),
                 ),
               ),
             ),
-            TextButton(onPressed:_readMore, child: const Text('Read More...',style: readMoreTextStyle,),
+            Flexible(
+              child: TextButton(
+                  onPressed: _readMore,
+                  child: const Text(
+                    'Read More...',
+                    style: readMoreTextStyle,
+                  )),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: DataTable(
+                  dataTextStyle: dataTableTxtStyle,
+                    headingTextStyle: headingTableTxtStyle,
+                    columnSpacing: 20,
+                    headingRowHeight: 80,
+                    horizontalMargin: 0,
+                    border: TableBorder.all(
+                      width: 2,
+                      color: Colors.indigo.shade900,
+                    ),
+                    columns: [
+                      DataColumn(label: Text('Name',)),
+                      DataColumn(label: Text('Engin',)),
+                      DataColumn(label: Text('Warranty')),
+                      DataColumn(label: Text('Power')),
+                    ],
+                    rows: [
+                      DataRow(
+                        cells: [
+                          DataCell(Text(myWid.carName,)),
+                          DataCell(Text(myWid.engin)),
+                          DataCell(Text(myWid.warranty)),
+                          DataCell(Text(myWid.horsepower)),
+                        ],
+                      ),
+                    ]),
+              ),
             )
           ],
         ),

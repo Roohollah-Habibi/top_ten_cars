@@ -51,7 +51,7 @@ final List<CarObject> carModelsLists = [
   CarObject(
     carDetails: carDetailsList[3],
     carId: 3,
-    carName: 'Jeep-Grand-Cherokee',
+    carName: 'Jeep-Grand',
     price: '98056\$',
     engin: 'Gas',
     horsepower: '123 - 145 hp',
