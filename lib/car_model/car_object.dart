@@ -8,9 +8,13 @@ final class CarObject {
   final String warranty;
   final String imgSrc;
   bool favorite;
+  final List<String>caroselImgs;
+  final String carDetails;
 
   CarObject({
     this.favorite = false,
+    required this.carDetails,
+    required this.caroselImgs,
     required this.carId,
     required this.carName,
     required this.price,

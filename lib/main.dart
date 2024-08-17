@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:top_ten/screens/details_screen.dart';
 import 'package:top_ten/screens/home_screen.dart';
 import 'package:top_ten/screens/splash_screen.dart';
 
@@ -25,8 +26,9 @@ class _MyAppState extends State<MyApp> {
       mytime();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'Top ten Luxury cars',
       theme: ThemeData.from(colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange)),
-      home: choseScreen,
+      home: const HomeScreen(),
     );
   }
 }

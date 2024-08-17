@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:top_ten/car_model/car_object.dart';
 import 'package:top_ten/object_lists/car_model_lists.dart';
-import 'package:top_ten/object_lists/card_list.dart';
-
 import 'package:top_ten/screens/details_screen.dart';
 import 'package:top_ten/styles_&_decorations/styles_and_decorations.dart';
-import '../custom_widgets/custom_grid_car_features.dart';
+import 'package:top_ten/custom_widgets/custom_grid_car_features.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+final Uri _url = Uri.parse('https://github.com/roohollah-Habibi/');
+int _carIndex = 0;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,8 +15,6 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-
-int _carIndex = 0;
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   double scaleFavorite = 1;
@@ -28,11 +27,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     String homeScreenImgSrc = carModelsLists[_carIndex].imgSrc;
     CarObject foundCar = carModelsLists[_carIndex];
-    bool favorite = foundCar.favorite;
     return Scaffold(
       backgroundColor: Colors.cyan,
       appBar: AppBar(
@@ -48,11 +52,40 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       body: Center(
         child: Container(
           decoration: backgroundColor,
-          child: Column(children: [
+          child: Column(
+              children: [
             SizedBox(
               height: 300,
               width: double.infinity,
-              child: buildGridTile(foundCar, homeScreenImgSrc),
+              child: GridTile(
+                  footer: GridTileBar(
+                    trailing: Padding(
+                      padding: const EdgeInsets.only(right: 20.0),
+                      child: Center(
+                        child: AnimatedScale(
+                          scale: scaleFavorite,
+                          duration: const Duration(milliseconds: 500),
+                          child: buildLikeButton(foundCar),
+                        ),
+                      ),
+                    ),
+                    title: InkWell(
+                      //todo: here should be the code to move to the right page
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => DetailsScreen(myCar: foundCar),
+                        ));
+                      },
+                      child: Text(
+                        'See More...',
+                        style: imageTextStyle,
+                      ),
+                    ),
+                  ),
+                  child: Image.asset(
+                    homeScreenImgSrc,
+                    fit: BoxFit.contain,
+                  ))
             ),
             Text(
               foundCar.carName,
@@ -72,33 +105,43 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  GridTile buildGridTile(CarObject foundCar, String homeScreenImgSrc) {
-    return GridTile(
-        footer: GridTileBar(
-          trailing: Padding(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: Center(
-              child: AnimatedScale(
-                scale: scaleFavorite,
-                duration: const Duration(milliseconds: 500),
-                child: buildLikeButton(foundCar),
-              ),
-            ),
-          ),
-          title: Text(
-            foundCar.carName,
-            style: imageTextStyle,
-          ),
-        ),
-        child: Image.asset(
-          homeScreenImgSrc,
-          fit: BoxFit.contain,
-        ));
-  }
+  // GridTile buildGridTile(CarObject foundCar, String homeScreenImgSrc) {
+  //   return GridTile(
+  //       footer: GridTileBar(
+  //         trailing: Padding(
+  //           padding: const EdgeInsets.only(right: 20.0),
+  //           child: Center(
+  //             child: AnimatedScale(
+  //               scale: scaleFavorite,
+  //               duration: const Duration(milliseconds: 500),
+  //               child: buildLikeButton(foundCar),
+  //             ),
+  //           ),
+  //         ),
+  //         title: InkWell(
+  //           //todo: here should be the code to move to the right page
+  //           onTap: () {
+  //             Navigator.of(context).push(MaterialPageRoute(
+  //               builder: (context) => DetailsScreen(myCar: foundCar),
+  //             ));
+  //           },
+  //           child: Text(
+  //             'See More...',
+  //             style: imageTextStyle,
+  //           ),
+  //         ),
+  //       ),
+  //       child: Image.asset(
+  //         homeScreenImgSrc,
+  //         fit: BoxFit.contain,
+  //       ));
+  // }
 
   Flexible buildScrollView(String homeScreenImgSrc) {
     return Flexible(
       child: ListWheelScrollView.useDelegate(
+        perspective: .005,
+        overAndUnderCenterOpacity: .2,
         onSelectedItemChanged: (value) {
           _carIndex = value;
           setState(() {
@@ -127,7 +170,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   InkWell buildLikeButton(CarObject foundCar) {
-
     return InkWell(
       onTap: () {
         foundCar.favorite = !foundCar.favorite;
@@ -154,7 +196,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       padding: const EdgeInsets.all(8.0),
       child: ListTile(
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const DetailsScreen(),
+          builder: (context) => DetailsScreen(
+            myCar: foundCar,
+          ),
         )),
         shape: BeveledRectangleBorder(
             borderRadius: BorderRadiusDirectional.circular(20)),
@@ -177,6 +221,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ),
     );
   }
+
   PopupMenuButton<String> buildPopupMenuButton() {
     return PopupMenuButton<String>(
       enableFeedback: true,
@@ -184,46 +229,55 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       iconColor: Colors.orange.shade300,
       itemBuilder: (context) => [
         PopupMenuItem(
-          onTap: () {
-          },
-          child: ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-            trailing: const Icon(
-              Icons.share,
-              color: Colors.indigo,
-              size: 25,
+          onTap: _launchUrl,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 1.0),
+            child: ListTile(
+              titleAlignment: ListTileTitleAlignment.center,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+              trailing: const Icon(
+                Icons.share,
+                color: Colors.indigo,
+                size: 25,
+              ),
+              title: const Text('Share the app'),
+              tileColor: Colors.orange.shade300,
+              titleTextStyle: appBarActionPopUpMenuStyle,
             ),
-            title: const Text('Share the app'),
-            tileColor: Colors.orange.shade300,
-            titleTextStyle: appBarActionPopUpMenuStyle,
           ),
         ),
         PopupMenuItem(
           onTap: () => showAboutApp(context),
-          child: ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-            trailing: const Icon(
-              Icons.info_outline,
-              color: Colors.indigo,
-              size: 25,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 1.0),
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+              trailing: const Icon(
+                Icons.info_outline,
+                color: Colors.indigo,
+                size: 25,
+              ),
+              title: const Text('About app'),
+              tileColor: Colors.orange.shade300,
+              titleTextStyle: appBarActionPopUpMenuStyle,
             ),
-            title: const Text('About app'),
-            tileColor: Colors.orange.shade300,
-            titleTextStyle: appBarActionPopUpMenuStyle,
           ),
         ),
         PopupMenuItem(
-          onTap: ()=> buildShowExitDialog(context),
-          child: ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-            trailing: const Icon(
-              Icons.exit_to_app,
-              color: Colors.indigo,
-              size: 25,
+          onTap: () => buildShowExitDialog(context),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 1.0),
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+              trailing: const Icon(
+                Icons.exit_to_app,
+                color: Colors.indigo,
+                size: 25,
+              ),
+              title: const Text('Exit'),
+              tileColor: Colors.orange.shade300,
+              titleTextStyle: appBarActionPopUpMenuStyle,
             ),
-            title: const Text('Exit'),
-            tileColor: Colors.orange.shade300,
-            titleTextStyle: appBarActionPopUpMenuStyle,
           ),
         ),
       ],
